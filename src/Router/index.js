@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import LoginPage from "@/components/Login";
 import RegisterPage from "@/components/Register"
 import TopicPage from "@/components/TopicPage";
+import QuestionPage from '@/components/QuestionPage';
 
 import store from '@/store';
 
@@ -33,6 +34,12 @@ const router = new Router({
            name:"topic-page",
            path:"/topicPage",
            component:TopicPage,
+           meta
+       },
+       {
+           name:"QuestionPage",
+           path:"/questions/:id",
+           component:QuestionPage,
            meta
        }
     ]

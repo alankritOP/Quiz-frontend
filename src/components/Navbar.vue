@@ -1,9 +1,9 @@
 <template>
-<nav class="navbar navbar-expand navbar-light bg-light">
+<nav class="navbar navbar-expand navbar-light" style="background-color: #e3f2fd;">
     <ul class="nav navbar-nav">
                 <li class="nav-item">
                     <router-link class="nav-link" active-class="active" to="/" exact>
-                        Home
+                       <strong>QuizApp Home</strong>
                     </router-link>
                 </li>
             </ul>
@@ -11,21 +11,17 @@
             <template v-if="isAuthenticated">
         <ul class="nav navbar-nav">
             <li class="nav-item">
-                <router-link class="nav-link" :to="links[0]">Welcome to Quiz Page</router-link>
+                <span>
+                    <strong>Welcome To Quiz Page</strong>
+                </span>
             </li>
-            <!-- <li class="nav-item">
-                <router-link class="nav-link" :to="links[1]">Meetings</router-link>
-            </li>
-            <li class="nav-item">
-                <router-link class="nav-link" :to="links[3]">Teams</router-link>
-            </li> -->
         </ul>
         <ul class="nav navbar-nav" v-if="isAuthenticated">
                     <li class="nav-item">
-                        <span class="nav-link ">Hello <span class="mail">{{ email}}</span></span>
+                        <span class="nav-link "><strong>Hello </strong><span class="mail">{{ email}}</span></span>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link cursor-pointer" @click="logout()">Logout</span>
+                        <span class="nav-link cursor-pointer" @click="logout()"><strong>Logout</strong></span>
                     </li>
                 </ul>
         </template>

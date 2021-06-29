@@ -5,26 +5,15 @@
         <div class="row d-flex">
             <div class="col-lg-6">
                 <div class="card1 pb-5">
-                    <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
-                         <img src="https://i.imgur.com/uNGdWHi.png" class="image"> 
-                    </div>
+                    <div class="row px-3 justify-content-center mt-4 mb-5 border-line"> <img src="https://i.imgur.com/uNGdWHi.png" class="image"> </div>
                 </div>
             </div>
-            <form name="form" @submit.prevent="login" >
             <div class="col-lg-6">
                 <div class="card2 card border-0 px-4 py-5">
-                    <div class="row px-3">
-                         <label for="email" class="mb-1">
+                    <form name="form" @submit.prevent="login">
+                    <div class="row px-3"> <label class="mb-1">
                             <h6 class="mb-0 text-sm">Email Address</h6>
-                        </label>
-                        <input
-                        class="mb-4" 
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="Enter a valid email address"
-                        v-model="form.email"
-                        />
+                        </label> <input class="mb-4" type="email" name="email" placeholder="Enter a valid email address"  v-model="form.email"> 
                         <div v-if="$v.form.email.$error">
                             <div v-if="!$v.form.email.required" class="error-message">
                                 <small>Required an email field</small>
@@ -33,19 +22,12 @@
                                 <small>Invalid Email</small>
                             </div>
                         </div>
-                    </div>
-                    <div class="row px-3"> 
-                        <label  id="password" class="mb-1">
+                        </div>
+                    <div class="row px-3"> <label class="mb-1">
                             <h6 class="mb-0 text-sm">Password</h6>
-                        </label> 
-                        <input 
-                        type="password" 
-                        name="password" 
-                        id="password"
-                        placeholder="Enter password"
-                        v-model="form.password"
-                        />
-                        <div v-if="$v.form.password.$error">
+                        </label> <input type="password" name="password" placeholder="Enter password"   v-model="form.password">
+
+                         <div v-if="$v.form.password.$error">
                             <div v-if="!$v.form.password.required" class="error-message">
                                 <small>Password is required</small>
                             </div>
@@ -65,23 +47,15 @@
                                 <small>The password must have at least 1 special character</small>
                             </div>
                         </div>
-                     </div>
+                         </div>
                     <div class="row px-3 mb-4">
-                        <div class="custom-control custom-checkbox custom-control-inline"> 
-                            <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> 
-                            <label for="chk1" class="custom-control-label text-sm">Remember me</label> 
-                        </div> 
-                            <a href="#" class="ml-auto mb-0 text-sm">Forgot Password?</a>
+                        <div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> <label for="chk1" class="custom-control-label text-sm">Remember me</label> </div> <a href="#" class="ml-auto mb-0 text-sm">Forgot Password?</a>
                     </div>
-                    <div class="row mb-3 px-3"> 
-                        <button type="submit" class="btn btn-blue text-center">Login</button> 
-                    </div>
-                    <div class="row mb-4 px-3">
-                         <small class="font-weight-bold">Don't have an account?<router-link class="nav-link" :to="links[0]">Register Here </router-link></small>
-                    </div>
+                    <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Login</button> </div>
+                    <div class="row mb-4 px-3"> <small class="font-weight-bold">Don't have an account? <router-link class="nav-link" :to="links[0]">Register Here</router-link> </small> </div>
+                    </form>
                 </div>
             </div>
-            </form>
         </div>
     </div>
 </div>
@@ -138,13 +112,15 @@ export default {
                this.$store.dispatch( 'login',(this.form))
                 .then(()=>{this.$router.push({name:"topic-page"})
                 Vue.$toast.success("SuccessFully Logged In",{
+                       duration: 1000,
                     position:'top-right'
                 })
                 })
                 .catch( error => {
-                            Vue.$toast.open({
+                            Vue.$toast.open("You Enter Wrong Detail",{
                                 message: error.response.data.message,
                                 duration: 5000,
+                                position:'top-right',
                                 type: 'error'
                             });
                         });            

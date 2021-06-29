@@ -4,7 +4,7 @@ const KEY_TOKEN = "token";
 import { successHandler, errorHandler } from './helper';
 
 const getTopics = () =>{
-    return axios.get(`http://localhost:3000/topics/`,
+    return axios.get(`http://localhost:3000/topics/getQuiz`,
          {
              headers:{
                  "Content-type":"application/json",

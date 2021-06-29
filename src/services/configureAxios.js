@@ -3,7 +3,7 @@ import store from '@/store';
 
 axios.interceptors.request.use(
     request => {
-        if( request.url.includes( 'testPage' ) ) {
+        if( request.url.includes( '/topicPage' ) || request.url.includes( '/questions/:id' ) ) {
             request.headers['Authorization'] = `Bearer ${store.state.auth.token}`;
         }
 

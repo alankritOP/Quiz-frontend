@@ -10,22 +10,65 @@
             </div>
             <div class="col-lg-6">
                 <div class="card2 card border-0 px-4 py-5">
-                    <div class="row mb-4 px-3">
-                    </div>
+                    <form name="form" @submit.prevent="register">
                      <div class="row px-3"> <label class="mb-1">
                             <h6 class="mb-0 text-sm">Username</h6>
-                        </label> <input class="mb-4" type="text" name="username" placeholder="Please Enter the username"> </div>
+                        </label> <input class="mb-4" type="text" name="username" placeholder="Please Enter the username"  v-model="form.name"/>   
+                        </div>
                     <div class="row px-3"> <label class="mb-1">
                             <h6 class="mb-0 text-sm">Email Address</h6>
-                        </label> <input class="mb-4" type="text" name="email" placeholder="Enter a valid email address"> </div>
+                        </label> <input class="mb-4" type="text" name="email" placeholder="Enter a valid email address"       
+                          @blur="$v.form.email.$touch()"
+                            :class="{
+                                'is-invalid':errorClass($v.form.email),
+                                'is-valid':validClass($v.form.email)
+                            }"
+                         />                         
+                        <div v-if="$v.form.email.$error">
+                            <div v-if="!$v.form.email.required" class="error-message">
+                                <small>Required an email field</small>
+                            </div>
+                            <div v-if="!$v.form.email.email" class="error-message">
+                                <small>Invalid Email</small>
+                            </div>
+                        </div>
+                        </div>
                     <div class="row px-3"> <label class="mb-1">
                             <h6 class="mb-0 text-sm">Password</h6>
-                        </label> <input type="password" name="password" placeholder="Enter password"> </div>
+                        </label> <input type="password" name="password" placeholder="Enter password"
+                        @blur="$v.form.password.$touch()"
+                            :class="{
+                                'is-invalid':errorClass($v.form.password),
+                                'is-valid':validClass($v.form.password)
+                            }"
+                        /> 
+                        <div v-if="$v.form.email.$error">
+                            <div v-if="!$v.form.password.required" class="error-message">
+                                <small>Password is required</small>
+                            </div>
+                            <div v-if="!$v.form.password.minLength" class="error-message">
+                                <small>It should have at least 8 characters</small>
+                            </div>
+                             <div v-if="!$v.form.password.containsUppercase" class="error-message">
+                                <small>The password must have at least 1 uppercase character</small>
+                            </div>
+                             <div v-if="!$v.form.password.containsLowercase" class="error-message">
+                                <small>The password must have at least 1 lowercase character</small>
+                            </div>
+                             <div v-if="!$v.form.password.containsNumber" class="error-message">
+                                <small>The password must have at least 1 digit</small>
+                            </div>
+                            <div v-if="!$v.form.password.containsSpecial" class="error-message">
+                                <small>The password must have at least 1 special character</small>
+                            </div>
+                        </div>
+                        </div>
                     <div class="row px-3 mb-4">
                         <div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> <label for="chk1" class="custom-control-label text-sm">Remember me</label> </div> <a href="#" class="ml-auto mb-0 text-sm">Forgot Password?</a>
                     </div>
                     <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Register</button> </div>
                     <div class="row mb-4 px-3"> <small class="font-weight-bold">Already have an Account <router-link class="nav-link" :to="links[0]">Login Here </router-link> </small> </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -36,6 +79,9 @@
 
 
 <script>
+import Vue from 'vue';
+ import {register} from "../services/auth"
+ import { email, required, minLength } from 'vuelidate/lib/validators'
 export default {
     name:"RegisterPage",
     data(){
@@ -45,7 +91,71 @@ export default {
                     "name":"login"
                 }
 
-            ]
+            ],
+            form:{
+            name:"",
+            email:"",
+            password:"",
+        },
+        }
+    },
+     validations:{
+        form:{
+            name:{
+                required,
+                minLength:minLength(2),
+            },
+            email:{
+                email,required
+            },
+            password:{
+                required,
+                minLength:minLength(8),
+                containsUpperCase:function(value){
+                    return /[A-Z]/.test(value)
+                },
+                containsLowercase: function(value) {
+                        return /[a-z]/.test(value)
+                    },
+                containsNumber: function(value) {
+                        return /[0-9]/.test(value)
+                    },
+                 containsSpecial: function(value) {
+                        return /[#?!@$%^&*-]/.test(value)
+                    }
+            }
+        }
+    },
+    methods:{
+        errorClass(field){
+            return field.$error;
+
+        },
+        validClass(field){
+            return !field.$invalid && field.$model && field.$dirty;
+        },
+        register(){
+            this.$v.form.$touch();
+            if(!this.$v.form.$invalid){
+                register(this.form)
+                .then(()=>{this.$router.push({name:"login"})
+                 Vue.$toast.success("SuccessFully Registered",{
+                    position:'top-right'
+                })
+                
+                })
+                .catch((error)=>{
+                    Vue.$toast.open({
+                        message:error.response.data.message,
+                        duration:5000,
+                        type:"error"
+                    });
+                });
+            }
+            else{
+                console.log("Invalid Input Values");
+            }
+
         }
     }
 }
