@@ -8,7 +8,7 @@ import VueToast from "vue-toast-notification";
 Vue.config.productionTip = false;
 import "vue-toast-notification/dist/theme-default.css";
 
-Vue.use(Router);
+Vue.use( Router );
 Vue.use( Vuex );
-Vue.use(Vuelidate);
-Vue.use(VueToast);
+Vue.use( Vuelidate );
+Vue.use( VueToast );

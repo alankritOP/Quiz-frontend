@@ -21,7 +21,7 @@
                         <span class="nav-link "><strong>Hello </strong><span class="mail">{{ email}}</span></span>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link cursor-pointer" @click="logout()"><strong>Logout</strong></span>
+                        <span class="nav-link cursor-pointer point" @click="logout()"><strong >Logout</strong></span>
                     </li>
                 </ul>
         </template>
@@ -52,7 +52,8 @@ export default {
     methods:{
         logout(){
             this.$store.dispatch('logout')
-            this.$router.push({name:'login'})
+            .then( () => this.$router.push( { name: 'login' } ) );
+            // this.$router.push({name:'login'})
         }
     },
    
@@ -65,5 +66,8 @@ export default {
 }
 .mail{
     color:blue;
+}
+.point{
+    cursor: pointer;
 }
 </style>

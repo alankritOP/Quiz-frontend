@@ -1,9 +1,9 @@
 import Router from "vue-router";
-import Navbar from "@/components/Navbar";
 import LoginPage from "@/components/Login";
 import RegisterPage from "@/components/Register"
 import TopicPage from "@/components/TopicPage";
 import QuestionPage from '@/components/QuestionPage';
+import PageNotFound from '@/components/PageNotFound';
 
 import store from '@/store';
 
@@ -14,11 +14,6 @@ const meta = {
 const router = new Router({
     mode:'history',
     routes:[
-        {
-            name:'Navbar',
-            path: "/navbar",
-            component:Navbar
-        },
        {
            name: "login",
            path: "/",
@@ -41,7 +36,12 @@ const router = new Router({
            path:"/questions/:id",
            component:QuestionPage,
            meta
-       }
+       },
+       {
+        name: 'page-not-found',
+        path: '*',
+        component: PageNotFound
+    }
     ]
 })
 router.beforeEach(( to, from, next ) => {

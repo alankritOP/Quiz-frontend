@@ -26,20 +26,34 @@ const register = ( credentials ) =>{
             }
         }
     )
-    .then(successHandler)
+    .then( successHandler )
     .then((data) => {
       const { authToken, email } = data;
 
-      localStorage.setItem(KEY_TOKEN, authToken);
-      localStorage.setItem(KEY_EMAIL, JSON.stringify(email));
+      localStorage.setItem( KEY_TOKEN, authToken );
+      localStorage.setItem( KEY_EMAIL, JSON.stringify(email) );
 
       return email;
     })
-    .catch(errorHandler);
-
+    .catch( errorHandler );
 }
+
+const isAuthenticated = () => {
+    return !!localStorage.getItem( KEY_TOKEN );
+  };
+  
+  const getEmail = () => {
+    return JSON.parse(localStorage.getItem( KEY_EMAIL ));
+  };
+  
+  const getToken = () => {
+    return localStorage.getItem( KEY_TOKEN );
+  };
 
 export {
     login,
-    register
+    register,
+    isAuthenticated,
+    getEmail,
+    getToken,
 }
